@@ -33,7 +33,7 @@ class Bil{
   
   void tegnBil() {
     
-    x = getX();
+    x = getPos();
     
     tegnLygte();
     tegnHjul();
@@ -56,12 +56,12 @@ class Bil{
     hjul[3].tegnHjul(x - xStoerrelse / 3, y - yStoerrelse / 2);
   }
   
-  float getX() {
+  float getPos() {
     
     float pos = millis() * hastighed / width + startX;
     pos = (pos - floor(pos)) * width;
     //Tager hensyn til bilens xStoerrelse, så man ikke ser den telepotere
-    pos += (pos / width - floor(pos / width)) * xStoerrelse - xStoerrelse / 2;
+    pos += (pos / width - floor(pos / width)) * (xStoerrelse + 100) - (xStoerrelse + 100) / 2;
         
     return pos;
   }
