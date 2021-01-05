@@ -1,38 +1,44 @@
 class Bil{
   
   float x, y;
-  float startX;
+  float startX, startY;
   float xStoerrelse, yStoerrelse;
   float hastighed;
-  
   color farve;
+  boolean erModHoejre;
   
   Hjul[] hjul = new Hjul[4];
   Lygte[] lygte = new Lygte[2];
   
-  Bil(float bilX, float bilY, float bilHastighed, float bilStoerrelse, float hjulStoerrelse, float lygteStoerrelse, color bilFarve) {
+  Bil(float bil_X, float bil_Y, float bil_Hastighed, float bil_Stoerrelse, float hjul_Stoerrelse, float lygte_Stoerrelse, color bil_Farve, boolean lygte_ErModHoejre) {
     
     for(int i = 0; i < hjul.length; i++) {
-      hjul[i] = new Hjul(hjulStoerrelse);
+      hjul[i] = new Hjul(hjul_Stoerrelse);
     }
     
     for(int i = 0; i < lygte.length; i++) {
-      lygte[i] = new Lygte(lygteStoerrelse);
+      lygte[i] = new Lygte(lygte_Stoerrelse);
     }
     
-    x = bilX;
-    y = bilY;
-    startX = bilX;
-    xStoerrelse = bilStoerrelse;
-    yStoerrelse = bilStoerrelse / 2;
+    startX = bil_X;
+    startY = bil_Y;
     
-    farve = bilFarve;
-
-    hastighed = bilHastighed;
+    xStoerrelse = bil_Stoerrelse;
+    yStoerrelse = bil_Stoerrelse / 2;
+    
+    farve = bil_Farve;
+    
+    hastighed = bil_Hastighed;
+    
+    if (!lygte_ErModHoejre)
+      hastighed *= -1;
+      
+    erModHoejre = lygte_ErModHoejre;
   }
   
   void tegnBil() {
     
+    y = startY * height;
     x = getPos();
     
     tegnLygte();
@@ -44,8 +50,8 @@ class Bil{
     
   void tegnLygte() {
     
-    lygte[0].tegnLygte(x + xStoerrelse / 2, y + yStoerrelse / 3);
-    lygte[1].tegnLygte(x + xStoerrelse / 2, y - yStoerrelse / 3);
+    lygte[0].tegnLygte(x, xStoerrelse / 2, y + yStoerrelse / 3, erModHoejre);
+    lygte[1].tegnLygte(x, xStoerrelse / 2, y - yStoerrelse / 3, erModHoejre);
   }
   
   void tegnHjul() {
@@ -58,7 +64,8 @@ class Bil{
   
   float getPos() {
     
-    float pos = millis() * hastighed / width + startX;
+    //Der ligger et GeoGebra i mappen, der viser hvordan denne funktion virker.
+    float pos = millis() * hastighed / width + startX + noise(millis() / 3000f * hastighed);
     pos = (pos - floor(pos)) * width;
     //Tager hensyn til bilens xStoerrelse, så man ikke ser den telepotere
     pos += (pos / width - floor(pos / width)) * (xStoerrelse + 100) - (xStoerrelse + 100) / 2;
