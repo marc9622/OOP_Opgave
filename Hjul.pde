@@ -2,10 +2,10 @@ class Hjul {
   
   float xStoerrelse, yStoerrelse;
   
-  Hjul(float hjulStoerrelse) {
+  Hjul(float hjul_Stoerrelse) {
     
-    xStoerrelse = hjulStoerrelse;
-    yStoerrelse = hjulStoerrelse;
+    xStoerrelse = hjul_Stoerrelse;
+    yStoerrelse = hjul_Stoerrelse;
     
   }
   
